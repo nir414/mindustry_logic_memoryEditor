@@ -1,0 +1,113 @@
+jump 68 equal setup true
+op div pixel_g 80 2.5
+sensor display_X display1 @x
+sensor display_Y display1 @y
+op sub display_X display_X 1.25
+op sub display_Y display_Y 1.25
+set num_scale 10
+op add segment @counter 1
+jump 66 always false false
+op mul segment_x num_scale 0.5
+op mul segment_y num_scale 0.4
+op mul sgmnt_y*2 segment_y 2
+op add lineX1 segment_x num_x
+op add lineY1 segment_y num_y
+op add lineY2 sgmnt_y*2 num_y
+jump 20 notEqual segment_n 0
+draw line num_x num_y lineX1 num_y 0 0
+draw line lineX1 num_y lineX1 lineY2 0 0
+draw line lineX1 lineY2 num_x lineY2 0 0
+draw line num_x lineY2 num_x num_y 0 0
+jump 22 notEqual segment_n 1
+draw line lineX1 num_y lineX1 lineY2 0 0
+jump 28 notEqual segment_n 2
+draw line num_x num_y lineX1 num_y 0 0
+draw line num_x num_y num_x lineY1 0 0
+draw line lineX1 lineY1 num_x lineY1 0 0
+draw line lineX1 lineY1 lineX1 lineY2 0 0
+draw line num_x lineY2 lineX1 lineY2 0 0
+jump 33 notEqual segment_n 3
+draw line num_x num_y lineX1 num_y 0 0
+draw line num_x lineY1 lineX1 lineY1 0 0
+draw line num_x lineY2 lineX1 lineY2 0 0
+draw line lineX1 num_y lineX1 lineY2 0 0
+jump 37 notEqual segment_n 4
+draw line num_x lineY2 num_x lineY1 0 0
+draw line num_x lineY1 lineX1 lineY1 0 0
+draw line lineX1 num_y lineX1 lineY2 0 0
+jump 43 notEqual segment_n 5
+draw line num_x lineY2 lineX1 lineY2 0 0
+draw line lineX1 lineY1 lineX1 num_y 0 0
+draw line lineX1 lineY1 num_x lineY1 0 0
+draw line num_x lineY1 num_x lineY2 0 0
+draw line num_x num_y lineX1 num_y 0 0
+jump 49 notEqual segment_n 6
+draw line num_x lineY2 lineX1 lineY2 0 0
+draw line num_x lineY2 num_x num_y 0 0
+draw line num_x num_y lineX1 num_y 0 0
+draw line lineX1 num_y lineX1 lineY1 0 0
+draw line lineX1 lineY1 num_x lineY1 0 0
+jump 53 notEqual segment_n 7
+draw line num_x lineY2 num_x lineY1 0 0
+draw line num_x lineY2 lineX1 lineY2 0 0
+draw line lineX1 lineY2 lineX1 num_y 0 0
+jump 59 notEqual segment_n 8
+draw line num_x lineY2 lineX1 lineY2 0 0
+draw line num_x lineY1 lineX1 lineY1 0 0
+draw line num_x num_y lineX1 num_y 0 0
+draw line num_x lineY2 num_x num_y 0 0
+draw line lineX1 lineY2 lineX1 num_y 0 0
+jump 65 notEqual segment_n 9
+draw line num_x lineY1 lineX1 lineY1 0 0
+draw line num_x lineY1 num_x lineY2 0 0
+draw line num_x lineY2 lineX1 lineY2 0 0
+draw line lineX1 lineY2 lineX1 num_y 0 0
+draw line num_x num_y lineX1 num_y 0 0
+set @counter return
+jump 68 always x false
+end
+set setup true
+op add return @counter 1
+set @counter segment
+draw clear 0 0 0 0 0 0
+drawflush display1
+op mod segment_n @time 5000
+op div segment_n segment_n 500
+op sub segment_n segment_n 1
+op ceil segment_n segment_n 0.5
+print segment_n
+printflush message1
+set num_x 10
+set num_y 10
+draw stroke 1 0 0 0 0 0
+sensor st arc1 @shooting
+jump 110 notEqual st true
+jump 94 notEqual one false
+op add click_time @time 1000
+set one true
+set hold_click true
+sensor start_sX arc1 @shootX
+sensor start_sY arc1 @shootY
+op sub cursor_X start_sX display_X
+op sub cursor_Y start_sY display_Y
+op mul st_pixel_X cursor_X pixel_g
+op mul st_pixel_Y cursor_Y pixel_g
+sensor sX arc1 @shootX
+sensor sY arc1 @shootY
+op sub cursor_X sX display_X
+op sub cursor_Y sY display_Y
+op mul pixel_X cursor_X pixel_g
+op mul pixel_Y cursor_Y pixel_g
+draw line st_pixel_X st_pixel_Y pixel_X pixel_Y 0 0
+draw linePoly pixel_X pixel_Y 10 5 0 0
+jump 109 equal hold_click false
+jump 109 lessThan click_time @time
+op sub distance_X sX start_sX
+op sub distance_Y sY start_sY
+op len distance distance_X distance_Y
+jump 109 lessThan distance 0.5
+set hold_click false
+jump 111 always st true
+set one false
+set result 0
+drawflush display1
