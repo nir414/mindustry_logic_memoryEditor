@@ -1,0 +1,77 @@
+jump 65 equal setup true
+set num_scale 10
+set num_x 10
+set num_y 10
+op add segment @counter 1
+jump 63 always false false
+op mul segment_x num_scale 1
+op mul segment_y num_scale 0.8
+op mul sgmnt_y*2 segment_y 2
+op add lineX1 segment_x num_x
+op add lineY1 segment_y num_y
+op add lineY2 sgmnt_y*2 num_y
+jump 17 notEqual segment_n 0
+draw line num_x num_y lineX1 num_y 0 0
+draw line lineX1 num_y lineX1 lineY2 0 0
+draw line lineX1 lineY2 num_x lineY2 0 0
+draw line num_x lineY2 num_x num_y 0 0
+jump 19 notEqual segment_n 1
+draw line lineX1 num_y lineX1 lineY2 0 0
+jump 25 notEqual segment_n 2
+draw line num_x num_y lineX1 num_y 0 0
+draw line num_x num_y num_x lineY1 0 0
+draw line lineX1 lineY1 num_x lineY1 0 0
+draw line lineX1 lineY1 lineX1 lineY2 0 0
+draw line num_x lineY2 lineX1 lineY2 0 0
+jump 30 notEqual segment_n 3
+draw line num_x num_y lineX1 num_y 0 0
+draw line num_x lineY1 lineX1 lineY1 0 0
+draw line num_x lineY2 lineX1 lineY2 0 0
+draw line lineX1 num_y lineX1 lineY2 0 0
+jump 34 notEqual segment_n 4
+draw line num_x lineY2 num_x lineY1 0 0
+draw line num_x lineY1 lineX1 lineY1 0 0
+draw line lineX1 num_y lineX1 lineY2 0 0
+jump 40 notEqual segment_n 5
+draw line num_x lineY2 lineX1 lineY2 0 0
+draw line lineX1 lineY1 lineX1 num_y 0 0
+draw line lineX1 lineY1 num_x lineY1 0 0
+draw line num_x lineY1 num_x lineY2 0 0
+draw line num_x num_y lineX1 num_y 0 0
+jump 46 notEqual segment_n 6
+draw line num_x lineY2 lineX1 lineY2 0 0
+draw line num_x lineY2 num_x num_y 0 0
+draw line num_x num_y lineX1 num_y 0 0
+draw line lineX1 num_y lineX1 lineY1 0 0
+draw line lineX1 lineY1 num_x lineY1 0 0
+jump 50 notEqual segment_n 7
+draw line num_x lineY2 num_x lineY1 0 0
+draw line num_x lineY2 lineX1 lineY2 0 0
+draw line lineX1 lineY2 lineX1 num_y 0 0
+jump 56 notEqual segment_n 8
+draw line num_x lineY2 lineX1 lineY2 0 0
+draw line num_x lineY1 lineX1 lineY1 0 0
+draw line num_x num_y lineX1 num_y 0 0
+draw line num_x lineY2 num_x num_y 0 0
+draw line lineX1 lineY2 lineX1 num_y 0 0
+jump 62 notEqual segment_n 9
+draw line num_x lineY1 lineX1 lineY1 0 0
+draw line num_x lineY1 num_x lineY2 0 0
+draw line num_x lineY2 lineX1 lineY2 0 0
+draw line lineX1 lineY2 lineX1 num_y 0 0
+draw line num_x num_y lineX1 num_y 0 0
+set @counter return
+jump 65 always x false
+end
+set setup true
+op add return @counter 1
+set @counter segment
+draw clear 0 0 0 0 0 0
+drawflush display1
+draw stroke 5 0 0 0 0 0
+op mod segment_n @time 5000
+op div segment_n segment_n 500
+op sub segment_n segment_n 1
+op ceil segment_n segment_n 0.5
+print segment_n
+printflush message1
